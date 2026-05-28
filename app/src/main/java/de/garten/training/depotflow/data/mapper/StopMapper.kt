@@ -6,17 +6,17 @@ import de.garten.training.depotflow.domain.StopType
 
 class StopMapper {
     fun fromDto(dto: StopDto): Stop {
-        val stop = Stop()
-        stop.setRemoteId(dto.id)
-        stop.setSequence(dto.sequence)
-        stop.setType(StopType.fromDatabaseValue(dto.type))
-        stop.setName(dto.name)
-        stop.setAddress(dto.address)
-        stop.setLatitude(dto.latitude)
-        stop.setLongitude(dto.longitude)
-        stop.setStatus(dto.status)
-        stop.setArrivalWindowFrom(dto.arrivalWindowFrom)
-        stop.setArrivalWindowTo(dto.arrivalWindowTo)
-        return stop
+        return Stop().apply {
+            remoteId = dto.id
+            sequence = dto.sequence
+            type = StopType.fromDatabaseValue(dto.type)
+            name = dto.name
+            address = dto.address
+            latitude = dto.latitude
+            longitude = dto.longitude
+            status = dto.status
+            arrivalWindowFrom = dto.arrivalWindowFrom
+            arrivalWindowTo = dto.arrivalWindowTo
+        }
     }
 }

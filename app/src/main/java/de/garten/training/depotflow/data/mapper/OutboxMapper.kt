@@ -6,11 +6,11 @@ import de.garten.training.depotflow.data.db.green.SyncOutboxEntry
 class OutboxMapper {
     fun toDto(entry: SyncOutboxEntry): OutboxDto {
         return OutboxDto(
-            entry.getAggregateType(),
-            entry.getAggregateId(),
-            entry.getOperation(),
-            entry.getPayload(),
-            entry.getCreatedAt()
+            entry.aggregateType,
+            entry.aggregateId,
+            entry.operation,
+            entry.payload,
+            entry.createdAt
         )
     }
 }

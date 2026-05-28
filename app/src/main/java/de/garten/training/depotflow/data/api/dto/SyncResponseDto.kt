@@ -1,8 +1,15 @@
 package de.garten.training.depotflow.data.api.dto
 
 class SyncResponseDto {
+    @JvmField
     var success: Boolean = false
-    var acceptedAggregateIds: MutableList<String?>? = null
-    var rejectedAggregateIds: MutableList<String?>? = null
+
+    @JvmField
+    var acceptedAggregateIds: List<String>? = null
+
+    @JvmField
+    var rejectedAggregateIds: List<String>? = null
+
+    @JvmField
     var serverTime: String? = null
 }

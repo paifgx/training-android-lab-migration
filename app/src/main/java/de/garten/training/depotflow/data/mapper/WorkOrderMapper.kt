@@ -7,39 +7,40 @@ import de.garten.training.depotflow.domain.WorkOrderStatus
 
 class WorkOrderMapper {
     fun fromDto(dto: WorkOrderDto): WorkOrder {
-        val entity = WorkOrder()
-        entity.setServerId(dto.id)
-        entity.setExternalNumber(dto.externalNumber)
-        entity.setTitle(dto.title)
-        entity.setCustomerName(dto.customerName)
-        entity.setStatus(WorkOrderStatus.fromServerValue(dto.status))
-        entity.setPriority(dto.priority)
-        entity.setDueAt(dto.dueAt)
-        entity.setUpdatedAt(dto.updatedAt)
-        entity.setAssignedUser(dto.assignedUser)
-        entity.setSyncStatus(SyncStatus.CLEAN)
-        entity.setDirty(false)
-        entity.setLastError(null)
-        return entity
+        return WorkOrder().apply {
+            serverId = dto.id
+            externalNumber = dto.externalNumber
+            title = dto.title
+            customerName = dto.customerName
+            status = WorkOrderStatus.fromServerValue(dto.status)
+            priority = dto.priority
+            dueAt = dto.dueAt
+            updatedAt = dto.updatedAt
+            assignedUser = dto.assignedUser
+            syncStatus = SyncStatus.CLEAN
+            isDirty = false
+            lastError = null
+        }
     }
 
     fun toDisplayTitle(entity: WorkOrder): String? {
-        if (entity.getExternalNumber() == null || entity.getExternalNumber().isEmpty()) {
-            return entity.getTitle()
+        val externalNumber = entity.externalNumber
+        if (externalNumber.isNullOrEmpty()) {
+            return entity.title
         }
-        return entity.getExternalNumber() + " · " + entity.getTitle()
+        return "$externalNumber · ${entity.title}"
     }
 
     fun shouldOverwriteLocal(local: WorkOrder?, remote: WorkOrderDto): Boolean {
         if (local == null) {
             return true
         }
-        if (local.isDirty()) {
+        if (local.isDirty) {
             return false
         }
-        if (remote.updatedAt == null) {
-            return false
-        }
-        return local.getUpdatedAt() == null || remote.updatedAt!!.compareTo(local.getUpdatedAt()) >= 0
+
+        val remoteUpdatedAt = remote.updatedAt ?: return false
+        val localUpdatedAt = local.updatedAt
+        return localUpdatedAt == null || remoteUpdatedAt >= localUpdatedAt
     }
 }
