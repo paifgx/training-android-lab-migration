@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DepotFlow Legacy</string>
+    <string name="legacy_warning">Legacy Java baseline · intentionally not modernized</string>
+</resources>
