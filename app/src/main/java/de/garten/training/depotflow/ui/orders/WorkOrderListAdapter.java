@@ -45,7 +45,7 @@ public class WorkOrderListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         WorkOrder order = getItem(position);
-        return order.getId() == null ? position : order.getId();
+        return order.id == null ? position : order.id;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WorkOrderListAdapter extends BaseAdapter {
         }
 
         WorkOrder order = getItem(position);
-        holder.title.setText(order.getExternalNumber() + " · " + order.getTitle());
+        holder.title.setText(order.externalNumber + " · " + order.title);
         holder.subtitle.setText(formatter.formatOrderSubtitle(order));
         holder.status.setText(formatter.formatOrderStatus(order));
         return convertView;

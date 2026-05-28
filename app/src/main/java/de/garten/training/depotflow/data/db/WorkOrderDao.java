@@ -47,7 +47,7 @@ public class WorkOrderDao {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = toValues(entity);
         long id = db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        entity.setId(id);
+        entity.id = id;
         return id;
     }
 
@@ -127,38 +127,38 @@ public class WorkOrderDao {
 
     private ContentValues toValues(WorkOrder entity) {
         ContentValues values = new ContentValues();
-        if (entity.getId() != null) {
-            values.put(Properties.Id, entity.getId());
+        if (entity.id != null) {
+            values.put(Properties.Id, entity.id);
         }
-        values.put(Properties.ServerId, entity.getServerId());
-        values.put(Properties.ExternalNumber, entity.getExternalNumber());
-        values.put(Properties.Title, entity.getTitle());
-        values.put(Properties.CustomerName, entity.getCustomerName());
-        values.put(Properties.Status, statusConverter.convertToDatabaseValue(entity.getStatus()));
-        values.put(Properties.Priority, entity.getPriority());
-        values.put(Properties.DueAt, entity.getDueAt());
-        values.put(Properties.UpdatedAt, entity.getUpdatedAt());
-        values.put(Properties.AssignedUser, entity.getAssignedUser());
-        values.put(Properties.SyncStatus, syncStatusConverter.convertToDatabaseValue(entity.getSyncStatus()));
-        values.put(Properties.LastError, entity.getLastError());
+        values.put(Properties.ServerId, entity.serverId);
+        values.put(Properties.ExternalNumber, entity.externalNumber);
+        values.put(Properties.Title, entity.title);
+        values.put(Properties.CustomerName, entity.customerName);
+        values.put(Properties.Status, statusConverter.convertToDatabaseValue(entity.status));
+        values.put(Properties.Priority, entity.priority);
+        values.put(Properties.DueAt, entity.dueAt);
+        values.put(Properties.UpdatedAt, entity.updatedAt);
+        values.put(Properties.AssignedUser, entity.assignedUser);
+        values.put(Properties.SyncStatus, syncStatusConverter.convertToDatabaseValue(entity.syncStatus));
+        values.put(Properties.LastError, entity.lastError);
         values.put(Properties.Dirty, entity.isDirty() ? 1 : 0);
         return values;
     }
 
     private WorkOrder fromCursor(Cursor cursor) {
         WorkOrder entity = new WorkOrder();
-        entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id)));
-        entity.setServerId(cursor.getString(cursor.getColumnIndexOrThrow(Properties.ServerId)));
-        entity.setExternalNumber(cursor.getString(cursor.getColumnIndexOrThrow(Properties.ExternalNumber)));
-        entity.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Title)));
-        entity.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow(Properties.CustomerName)));
-        entity.setStatus(statusConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Status))));
-        entity.setPriority(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Priority)));
-        entity.setDueAt(cursor.getString(cursor.getColumnIndexOrThrow(Properties.DueAt)));
-        entity.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(Properties.UpdatedAt)));
-        entity.setAssignedUser(cursor.getString(cursor.getColumnIndexOrThrow(Properties.AssignedUser)));
-        entity.setSyncStatus(syncStatusConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.SyncStatus))));
-        entity.setLastError(cursor.getString(cursor.getColumnIndexOrThrow(Properties.LastError)));
+        entity.id = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id));
+        entity.serverId = cursor.getString(cursor.getColumnIndexOrThrow(Properties.ServerId));
+        entity.externalNumber = cursor.getString(cursor.getColumnIndexOrThrow(Properties.ExternalNumber));
+        entity.title = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Title));
+        entity.customerName = cursor.getString(cursor.getColumnIndexOrThrow(Properties.CustomerName));
+        entity.status = statusConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Status)));
+        entity.priority = cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Priority));
+        entity.dueAt = cursor.getString(cursor.getColumnIndexOrThrow(Properties.DueAt));
+        entity.updatedAt = cursor.getString(cursor.getColumnIndexOrThrow(Properties.UpdatedAt));
+        entity.assignedUser = cursor.getString(cursor.getColumnIndexOrThrow(Properties.AssignedUser));
+        entity.syncStatus = syncStatusConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.SyncStatus)));
+        entity.lastError = cursor.getString(cursor.getColumnIndexOrThrow(Properties.LastError));
         entity.setDirty(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Dirty)) == 1);
         return entity;
     }

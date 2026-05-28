@@ -137,12 +137,12 @@ public class WorkOrderRepository {
                     database.workOrderDao().updateLocalStatus(serverId, WorkOrderStatus.DONE, updatedAt);
 
                     SyncOutboxEntry outboxEntry = new SyncOutboxEntry();
-                    outboxEntry.setAggregateType("WORK_ORDER");
-                    outboxEntry.setAggregateId(serverId);
-                    outboxEntry.setOperation("COMPLETE");
-                    outboxEntry.setCreatedAt(updatedAt);
-                    outboxEntry.setAttempts(0);
-                    outboxEntry.setPayload(gson.toJson(new CompletionPayload(serverId, updatedAt, "android-legacy")));
+                    outboxEntry.aggregateType = "WORK_ORDER";
+                    outboxEntry.aggregateId = serverId;
+                    outboxEntry.operation = "COMPLETE";
+                    outboxEntry.createdAt = updatedAt;
+                    outboxEntry.attempts = 0;
+                    outboxEntry.payload = gson.toJson(new CompletionPayload(serverId, updatedAt, "android-legacy"));
                     database.syncOutboxEntryDao().insert(outboxEntry);
 
                     final WorkOrder after = database.workOrderDao().loadByServerId(serverId);
@@ -191,7 +191,7 @@ public class WorkOrderRepository {
 
         WorkOrder entity = workOrderMapper.fromDto(dto);
         if (local != null) {
-            entity.setId(local.getId());
+            entity.id = local.id;
         }
         long localId = database.workOrderDao().insertOrReplace(entity);
 

@@ -70,7 +70,7 @@ public class WorkOrderDetailActivity extends Activity {
 
     private void render(WorkOrderDetails details) {
         WorkOrder order = details.getWorkOrder();
-        titleText.setText(order.getExternalNumber() + "\n" + order.getTitle());
+        titleText.setText(order.externalNumber + "\n" + order.title);
         metaText.setText(formatter.formatOrderSubtitle(order) + "\n" + formatter.formatOrderStatus(order));
 
         StringBuilder stops = new StringBuilder("Stopps\n\n");
@@ -91,7 +91,7 @@ public class WorkOrderDetailActivity extends Activity {
             return;
         }
         completeButton.setEnabled(false);
-        repository.completeOffline(currentOrder.getServerId(), new ResultCallback<WorkOrder>() {
+        repository.completeOffline(currentOrder.serverId, new ResultCallback<WorkOrder>() {
             @Override
             public void onSuccess(WorkOrder value) {
                 Toast.makeText(WorkOrderDetailActivity.this, "Lokal erledigt und Outbox-Eintrag erzeugt", Toast.LENGTH_LONG).show();

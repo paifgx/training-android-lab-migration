@@ -24,9 +24,9 @@ public class WorkOrderMapperTest {
 
         WorkOrder entity = mapper.fromDto(dto);
 
-        assertEquals("wo-1", entity.getServerId());
-        assertEquals(WorkOrderStatus.ACCEPTED, entity.getStatus());
-        assertEquals(SyncStatus.CLEAN, entity.getSyncStatus());
+        assertEquals("wo-1", entity.serverId);
+        assertEquals(WorkOrderStatus.ACCEPTED, entity.status);
+        assertEquals(SyncStatus.CLEAN, entity.syncStatus);
         assertFalse(entity.isDirty());
     }
 
@@ -34,7 +34,7 @@ public class WorkOrderMapperTest {
     public void dirtyLocalEntityWinsAgainstRemote() {
         WorkOrder local = new WorkOrder();
         local.setDirty(true);
-        local.setUpdatedAt("2026-05-27T09:00:00Z");
+        local.updatedAt = "2026-05-27T09:00:00Z";
 
         WorkOrderDto remote = new WorkOrderDto("wo-1", "DF-1", "Remote", "Depot", "done", 5);
         remote.updatedAt = "2026-05-27T10:00:00Z";
@@ -46,7 +46,7 @@ public class WorkOrderMapperTest {
     public void newerRemoteEntityCanOverwriteCleanLocalEntity() {
         WorkOrder local = new WorkOrder();
         local.setDirty(false);
-        local.setUpdatedAt("2026-05-27T09:00:00Z");
+        local.updatedAt = "2026-05-27T09:00:00Z";
 
         WorkOrderDto remote = new WorkOrderDto("wo-1", "DF-1", "Remote", "Depot", "done", 5);
         remote.updatedAt = "2026-05-27T10:00:00Z";

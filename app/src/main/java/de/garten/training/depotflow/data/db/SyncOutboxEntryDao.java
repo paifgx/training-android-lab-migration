@@ -33,7 +33,7 @@ public class SyncOutboxEntryDao {
 
     public long insert(SyncOutboxEntry entry) {
         long id = helper.getWritableDatabase().insert(TABLE_NAME, null, toValues(entry));
-        entry.setId(id);
+        entry.id = id;
         return id;
     }
 
@@ -78,7 +78,7 @@ public class SyncOutboxEntryDao {
             return;
         }
         ContentValues values = new ContentValues();
-        values.put(Properties.Attempts, entry.getAttempts() + 1);
+        values.put(Properties.Attempts, entry.attempts + 1);
         values.put(Properties.LastError, error);
         helper.getWritableDatabase().update(TABLE_NAME, values, Properties.Id + " = ?", new String[]{String.valueOf(id)});
     }
@@ -105,29 +105,29 @@ public class SyncOutboxEntryDao {
 
     private ContentValues toValues(SyncOutboxEntry entry) {
         ContentValues values = new ContentValues();
-        if (entry.getId() != null) {
-            values.put(Properties.Id, entry.getId());
+        if (entry.id != null) {
+            values.put(Properties.Id, entry.id);
         }
-        values.put(Properties.AggregateType, entry.getAggregateType());
-        values.put(Properties.AggregateId, entry.getAggregateId());
-        values.put(Properties.Operation, entry.getOperation());
-        values.put(Properties.Payload, entry.getPayload());
-        values.put(Properties.CreatedAt, entry.getCreatedAt());
-        values.put(Properties.Attempts, entry.getAttempts());
-        values.put(Properties.LastError, entry.getLastError());
+        values.put(Properties.AggregateType, entry.aggregateType);
+        values.put(Properties.AggregateId, entry.aggregateId);
+        values.put(Properties.Operation, entry.operation);
+        values.put(Properties.Payload, entry.payload);
+        values.put(Properties.CreatedAt, entry.createdAt);
+        values.put(Properties.Attempts, entry.attempts);
+        values.put(Properties.LastError, entry.lastError);
         return values;
     }
 
     private SyncOutboxEntry fromCursor(Cursor cursor) {
         SyncOutboxEntry entry = new SyncOutboxEntry();
-        entry.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id)));
-        entry.setAggregateType(cursor.getString(cursor.getColumnIndexOrThrow(Properties.AggregateType)));
-        entry.setAggregateId(cursor.getString(cursor.getColumnIndexOrThrow(Properties.AggregateId)));
-        entry.setOperation(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Operation)));
-        entry.setPayload(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Payload)));
-        entry.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(Properties.CreatedAt)));
-        entry.setAttempts(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Attempts)));
-        entry.setLastError(cursor.getString(cursor.getColumnIndexOrThrow(Properties.LastError)));
+        entry.id = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id));
+        entry.aggregateType = cursor.getString(cursor.getColumnIndexOrThrow(Properties.AggregateType));
+        entry.aggregateId = cursor.getString(cursor.getColumnIndexOrThrow(Properties.AggregateId));
+        entry.operation = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Operation));
+        entry.payload = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Payload));
+        entry.createdAt = cursor.getString(cursor.getColumnIndexOrThrow(Properties.CreatedAt));
+        entry.attempts = cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Attempts));
+        entry.lastError = cursor.getString(cursor.getColumnIndexOrThrow(Properties.LastError));
         return entry;
     }
 }

@@ -32,7 +32,7 @@ public class ChecklistItemDao {
 
     public long insert(ChecklistItem item) {
         long id = helper.getWritableDatabase().insert(TABLE_NAME, null, toValues(item));
-        item.setId(id);
+        item.id = id;
         return id;
     }
 
@@ -42,7 +42,7 @@ public class ChecklistItemDao {
         try {
             db.delete(TABLE_NAME, Properties.WorkOrderId + " = ?", new String[]{String.valueOf(workOrderId)});
             for (ChecklistItem item : items) {
-                item.setWorkOrderId(workOrderId);
+                item.workOrderId = workOrderId;
                 db.insert(TABLE_NAME, null, toValues(item));
             }
             db.setTransactionSuccessful();
@@ -78,27 +78,27 @@ public class ChecklistItemDao {
 
     private ContentValues toValues(ChecklistItem item) {
         ContentValues values = new ContentValues();
-        if (item.getId() != null) {
-            values.put(Properties.Id, item.getId());
+        if (item.id != null) {
+            values.put(Properties.Id, item.id);
         }
-        values.put(Properties.WorkOrderId, item.getWorkOrderId());
-        values.put(Properties.RemoteId, item.getRemoteId());
-        values.put(Properties.Label, item.getLabel());
+        values.put(Properties.WorkOrderId, item.workOrderId);
+        values.put(Properties.RemoteId, item.remoteId);
+        values.put(Properties.Label, item.label);
         values.put(Properties.Checked, item.isChecked() ? 1 : 0);
         values.put(Properties.Mandatory, item.isMandatory() ? 1 : 0);
-        values.put(Properties.Note, item.getNote());
+        values.put(Properties.Note, item.note);
         return values;
     }
 
     private ChecklistItem fromCursor(Cursor cursor) {
         ChecklistItem item = new ChecklistItem();
-        item.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id)));
-        item.setWorkOrderId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.WorkOrderId)));
-        item.setRemoteId(cursor.getString(cursor.getColumnIndexOrThrow(Properties.RemoteId)));
-        item.setLabel(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Label)));
+        item.id = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id));
+        item.workOrderId = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.WorkOrderId));
+        item.remoteId = cursor.getString(cursor.getColumnIndexOrThrow(Properties.RemoteId));
+        item.label = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Label));
         item.setChecked(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Checked)) == 1);
         item.setMandatory(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Mandatory)) == 1);
-        item.setNote(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Note)));
+        item.note = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Note));
         return item;
     }
 }

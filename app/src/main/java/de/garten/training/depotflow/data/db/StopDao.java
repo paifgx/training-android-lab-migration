@@ -39,7 +39,7 @@ public class StopDao {
 
     public long insert(Stop stop) {
         long id = helper.getWritableDatabase().insert(TABLE_NAME, null, toValues(stop));
-        stop.setId(id);
+        stop.id = id;
         return id;
     }
 
@@ -49,7 +49,7 @@ public class StopDao {
         try {
             db.delete(TABLE_NAME, Properties.WorkOrderId + " = ?", new String[]{String.valueOf(workOrderId)});
             for (Stop stop : stops) {
-                stop.setWorkOrderId(workOrderId);
+                stop.workOrderId = workOrderId;
                 db.insert(TABLE_NAME, null, toValues(stop));
             }
             db.setTransactionSuccessful();
@@ -85,37 +85,37 @@ public class StopDao {
 
     private ContentValues toValues(Stop stop) {
         ContentValues values = new ContentValues();
-        if (stop.getId() != null) {
-            values.put(Properties.Id, stop.getId());
+        if (stop.id != null) {
+            values.put(Properties.Id, stop.id);
         }
-        values.put(Properties.WorkOrderId, stop.getWorkOrderId());
-        values.put(Properties.RemoteId, stop.getRemoteId());
-        values.put(Properties.Sequence, stop.getSequence());
-        values.put(Properties.Type, typeConverter.convertToDatabaseValue(stop.getType()));
-        values.put(Properties.Name, stop.getName());
-        values.put(Properties.Address, stop.getAddress());
-        values.put(Properties.Latitude, stop.getLatitude());
-        values.put(Properties.Longitude, stop.getLongitude());
-        values.put(Properties.Status, stop.getStatus());
-        values.put(Properties.ArrivalWindowFrom, stop.getArrivalWindowFrom());
-        values.put(Properties.ArrivalWindowTo, stop.getArrivalWindowTo());
+        values.put(Properties.WorkOrderId, stop.workOrderId);
+        values.put(Properties.RemoteId, stop.remoteId);
+        values.put(Properties.Sequence, stop.sequence);
+        values.put(Properties.Type, typeConverter.convertToDatabaseValue(stop.type));
+        values.put(Properties.Name, stop.name);
+        values.put(Properties.Address, stop.address);
+        values.put(Properties.Latitude, stop.latitude);
+        values.put(Properties.Longitude, stop.longitude);
+        values.put(Properties.Status, stop.status);
+        values.put(Properties.ArrivalWindowFrom, stop.arrivalWindowFrom);
+        values.put(Properties.ArrivalWindowTo, stop.arrivalWindowTo);
         return values;
     }
 
     private Stop fromCursor(Cursor cursor) {
         Stop stop = new Stop();
-        stop.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id)));
-        stop.setWorkOrderId(cursor.getLong(cursor.getColumnIndexOrThrow(Properties.WorkOrderId)));
-        stop.setRemoteId(cursor.getString(cursor.getColumnIndexOrThrow(Properties.RemoteId)));
-        stop.setSequence(cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Sequence)));
-        stop.setType(typeConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Type))));
-        stop.setName(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Name)));
-        stop.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Address)));
-        stop.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow(Properties.Latitude)));
-        stop.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow(Properties.Longitude)));
-        stop.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Status)));
-        stop.setArrivalWindowFrom(cursor.getString(cursor.getColumnIndexOrThrow(Properties.ArrivalWindowFrom)));
-        stop.setArrivalWindowTo(cursor.getString(cursor.getColumnIndexOrThrow(Properties.ArrivalWindowTo)));
+        stop.id = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.Id));
+        stop.workOrderId = cursor.getLong(cursor.getColumnIndexOrThrow(Properties.WorkOrderId));
+        stop.remoteId = cursor.getString(cursor.getColumnIndexOrThrow(Properties.RemoteId));
+        stop.sequence = cursor.getInt(cursor.getColumnIndexOrThrow(Properties.Sequence));
+        stop.type = typeConverter.convertToEntityProperty(cursor.getString(cursor.getColumnIndexOrThrow(Properties.Type)));
+        stop.name = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Name));
+        stop.address = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Address));
+        stop.latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(Properties.Latitude));
+        stop.longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(Properties.Longitude));
+        stop.status = cursor.getString(cursor.getColumnIndexOrThrow(Properties.Status));
+        stop.arrivalWindowFrom = cursor.getString(cursor.getColumnIndexOrThrow(Properties.ArrivalWindowFrom));
+        stop.arrivalWindowTo = cursor.getString(cursor.getColumnIndexOrThrow(Properties.ArrivalWindowTo));
         return stop;
     }
 }
